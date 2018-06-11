@@ -104,8 +104,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng Seoul = new LatLng(37.56, 126.97);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(Seoul));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        LatLng Center = new LatLng(36.21, 127.63);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(Center));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
     }
 }
