@@ -71,7 +71,7 @@ public class InfoList extends Fragment {
         String intent_seq = "";
         intent_seq += recyclerItems.get(position).getSeq();
         startActivity(intent);
-
+ 
     }
 
     private class GetCount extends AsyncTask<String, Void, Document>{
