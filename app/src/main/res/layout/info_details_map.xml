@@ -8,12 +8,13 @@
 
     <ImageView
         android:id="@+id/party_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="221dp"
+        android:layout_height="163dp"
         android:layout_marginEnd="156dp"
         android:layout_marginStart="156dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -22,19 +23,19 @@
         android:id="@+id/party_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="180dp"
+        android:text="행사 이름"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/party_poster" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/party_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
-        android:text="TextView"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="행사 장소"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/party_name" />
 
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="14dp"
-        android:text="TextView"
+        android:text="행사 시작일"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/party_location" />
 
@@ -54,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="14dp"
-        android:text="TextView"
+        android:text="행사 종료일"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/party_start_date" />
 
@@ -62,10 +63,10 @@
         android:id="@+id/party_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="14dp"
-        android:text="TextView"
+        android:text="입장료"
         app:layout_constraintBottom_toTopOf="@+id/fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/party_end_date"
@@ -76,10 +77,11 @@
         android:name="bangbanggokgok.com.com.com.mobile_project.MapFragment"
         android:layout_width="285dp"
         android:layout_height="218dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
