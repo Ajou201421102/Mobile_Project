@@ -37,6 +37,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
         });
         // holder에 아이템 binding
         // holder의 아이템에 listener 기능 등록
+
+
     }
 
     @Override
