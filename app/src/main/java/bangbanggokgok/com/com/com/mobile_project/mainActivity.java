@@ -65,17 +65,19 @@ public class mainActivity extends AppCompatActivity implements mainMethod{
         convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = null;
+               // Fragment fragment = null;
                 if(change == 0){
-                    fragment = infoList;
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.container,infoList).commit();
                     change = 1;
                 }else{
-                    fragment = googleMap;
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.container,googleMap).commit();
                     change = 0;
                 }
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.container,fragment).commit();
+
             }
         });
         current_uid = mAuth.getCurrentUser().getUid().toString();

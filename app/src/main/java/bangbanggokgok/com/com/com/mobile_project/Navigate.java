@@ -51,6 +51,7 @@ public class Navigate extends Fragment implements mainMethod{
         mAuth = FirebaseAuth.getInstance();
         current_uid = mAuth.getCurrentUser().getUid().toString();
         View view = inflater.inflate(R.layout.navigate,container,false);
+        view.setClickable(true);
         email = view.findViewById(R.id.email_info);
         name = view.findViewById(R.id.name_info);
         close = view.findViewById(R.id.close);

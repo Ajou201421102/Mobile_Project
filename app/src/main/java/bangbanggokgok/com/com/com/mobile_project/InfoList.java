@@ -75,6 +75,7 @@ public class InfoList extends Fragment {
     }
 
     private void showDeleteDialog(final int position) {
+
     }
 
     private class GetCount extends AsyncTask<String, Void, Document>{

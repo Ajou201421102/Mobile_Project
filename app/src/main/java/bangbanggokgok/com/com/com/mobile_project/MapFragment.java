@@ -91,9 +91,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 //액티비티가 처음 생성될 때 실행되는 함수
-
         if(mapView != null)
         {
             mapView.onCreate(savedInstanceState);
