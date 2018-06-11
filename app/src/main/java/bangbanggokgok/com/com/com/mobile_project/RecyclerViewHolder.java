@@ -1,5 +1,6 @@
 package bangbanggokgok.com.com.com.mobile_project;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+public class RecyclerViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener*/ {
     private TextView seq;
     private TextView title;
     private ImageView image;
@@ -16,6 +17,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     private TextView place;
     private TextView realmName;
     private TextView endDate;
+
     public RecyclerViewHolder(View itemView) {
         super(itemView);
         seq = itemView.findViewById(R.id.itme_seq);
@@ -36,6 +38,18 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         endDate.setText(recyclerItem.getEndDate());
         // 뷰와 데이터 바인딩
     }
+/*
+
+    @Override
+    public void onClick(View v) {
+
+        System.out.println(getPosition());
+        Intent intent = new Intent(v.getContext() , InfoDetails.class);
+        v.getContext().startActivity(intent);
+    }
+*/
+
+
 
 }
 
