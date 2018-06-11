@@ -1,6 +1,8 @@
 package bangbanggokgok.com.com.com.mobile_project;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -36,6 +38,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 
 public class InfoList extends Fragment {
+    ProgressDialog asynDialog;
     Activity root;
     String urlList= "";
     String seqNode = "";
@@ -44,42 +47,43 @@ public class InfoList extends Fragment {
     String realmNameNode ="";
     String endDateNode ="";
 
-
+    View view;
     RecyclerView recyclerView;
-    ArrayList<RecyclerItem> recyclerItems;
+    ArrayList<RecyclerItem> recyclerItems = new ArrayList<>();
     Document doc = null;
-    TextView textview;
-    ImageView imageView;
+
     int rows;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.infolist,container,false);
-
         root = getActivity();
-        textview = view.findViewById(R.id.InfoList);
-        imageView = view.findViewById(R.id.imageSample);
-
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerItems = new ArrayList<>();
-
+        view = inflater.inflate(R.layout.infolist,container,false);
+        asynDialog = new ProgressDialog(getActivity());
 
         new GetCount().execute("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/realm?ServiceKey=" +
                 "qRzDzTz85rxbcjeZoCMhi739iMERvTiZzZcQhaREYzRN6IZhuv1Kv63NJYgkVEHBXxOa%2FSk%2FgeOPl%2FE4rujMFQ%3D%3D");
-        new GetXMLTask().execute("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/realm?ServiceKey=" +
-                "qRzDzTz85rxbcjeZoCMhi739iMERvTiZzZcQhaREYzRN6IZhuv1Kv63NJYgkVEHBXxOa%2FSk%2FgeOPl%2FE4rujMFQ%3D%3D"+"&rows="+rows);
-
-        new DownloadImageTask().execute(0);
-
         return view;
     }
 
     private void showDeleteDialog(final int position) {
+        Intent intent = new Intent(getActivity(),MapFragment.class);
+        String intent_seq = "";
+        intent_seq += recyclerItems.get(position).getSeq();
+        startActivity(intent);
 
     }
 
     private class GetCount extends AsyncTask<String, Void, Document>{
 
+        @Override
+        protected void onPreExecute() {
+
+            asynDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asynDialog.setMessage("공연정보를 가져오고 있는 중입니다");
+            asynDialog.show();
+            super.onPreExecute();
+        }
         @Override
         protected Document doInBackground(String... urls) {
             URL url;
@@ -106,10 +110,13 @@ public class InfoList extends Fragment {
             Element nameElement = (Element) nameList.item(0);
             nameList = nameElement.getChildNodes();
             rows = Integer.parseInt(((Node) nameList.item(0)).getNodeValue());
+            new GetXMLTask().execute("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/realm?ServiceKey=" +
+                    "qRzDzTz85rxbcjeZoCMhi739iMERvTiZzZcQhaREYzRN6IZhuv1Kv63NJYgkVEHBXxOa%2FSk%2FgeOPl%2FE4rujMFQ%3D%3D"+"&rows="+rows);
             super.onPostExecute(doc);
         }
     }
     private class GetXMLTask extends AsyncTask<String, Void, Document>{
+
 
         @Override
         protected Document doInBackground(String... urls) {
@@ -126,6 +133,7 @@ public class InfoList extends Fragment {
             }
             return doc;
         }
+
 
         @Override
         protected void onPostExecute(Document doc) {
@@ -177,11 +185,13 @@ public class InfoList extends Fragment {
 
                 }
 
+            new DownloadImageTask().execute(0);
                 //textview.setText(urlList);
             super.onPostExecute(doc);
         }
     }//end inner class - GetXMLTask
     private class DownloadImageTask extends AsyncTask<Integer, Bitmap, Void> {
+
         int point=0;
         String[] image;
         String[] seq;
@@ -189,6 +199,10 @@ public class InfoList extends Fragment {
         String[] place;
         String[] realmName;
         String[] endDate;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
         @Override
         protected Void doInBackground(Integer... position) {
 
@@ -220,6 +234,7 @@ public class InfoList extends Fragment {
                     e.printStackTrace();
                 }
                 publishProgress(resized);
+
            }
             return null;
         }
@@ -236,10 +251,11 @@ public class InfoList extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root);
+            asynDialog.dismiss();
+            recyclerView = view.findViewById(R.id.recycler_view);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             final RecyclerAdapter recyclerAdapter = new RecyclerAdapter(recyclerItems);
-
             recyclerAdapter.setListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
@@ -247,9 +263,11 @@ public class InfoList extends Fragment {
                     recyclerAdapter.notifyDataSetChanged();
                 }
             });
+            recyclerAdapter.notifyDataSetChanged();
             recyclerView.setAdapter(recyclerAdapter);
             recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.addItemDecoration(new DividerItemDecoration(root, linearLayoutManager.getOrientation()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation()));
+
             super.onPostExecute(aVoid);
         }
     }

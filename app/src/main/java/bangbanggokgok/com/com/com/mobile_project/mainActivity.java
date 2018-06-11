@@ -47,8 +47,7 @@ public class mainActivity extends AppCompatActivity implements mainMethod{
         container = findViewById(R.id.container);
         navigate = findViewById(R.id.navigate);
         navigate_btn = findViewById(R.id.navigate_btn);
-        convert = findViewById(R.id.convert);
-        final MapFragment googleMap = new MapFragment();
+        //convert = findViewById(R.id.convert);
         final InfoList infoList = new InfoList();
         final Navigate navigateFragment = new Navigate();
         navigateFragment.setListener(this);
@@ -60,29 +59,10 @@ public class mainActivity extends AppCompatActivity implements mainMethod{
                     navigate.setVisibility(View.VISIBLE);
             }
         });
-        getSupportFragmentManager().beginTransaction().add(R.id.container,googleMap).commit();
-        change = 0;
-        convert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // Fragment fragment = null;
-                if(change == 0){
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.container,infoList).commit();
-                    change = 1;
-                }else{
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.container,googleMap).commit();
-                    change = 0;
-                }
+        getSupportFragmentManager().beginTransaction().add(R.id.container,infoList).commit();
 
-            }
-        });
         current_uid = mAuth.getCurrentUser().getUid().toString();
         Toast.makeText(this,current_uid,Toast.LENGTH_LONG).show();
-
     }
     public void CloseNavigate(){
         navigate.setVisibility(View.INVISIBLE);

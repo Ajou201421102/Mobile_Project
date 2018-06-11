@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,30 +21,18 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by User on 2018-06-07.
  */
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private MapView mapView = null;
 
-
-    public MapFragment() {
-        //
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.googlemap,container,false);
-
-        mapView = (MapView) view.findViewById(R.id.map);
+        setContentView(R.layout.googlemap);
+        mapView = findViewById(R.id.map);
         mapView.getMapAsync(this);
-
-        return view;
+        mapView.onCreate(savedInstanceState);
     }
 
     @Override
@@ -87,17 +76,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onDestroy();
         mapView.onLowMemory();
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//액티비티가 처음 생성될 때 실행되는 함수
-        if(mapView != null)
-        {
-            mapView.onCreate(savedInstanceState);
-        }
-    }
-
 
 
     @Override

@@ -35,20 +35,12 @@
             <TextView
                 android:id="@+id/Appname"
                 android:layout_width="300dp"
+                android:layout_marginRight="55dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="30dp"
                 android:text="방방GOGO" />
-
-            <ImageView
-                android:id="@+id/convert"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/convert" />
 
         </LinearLayout>
 

@@ -54,6 +54,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mainActivity" />
+        <activity android:name=".MapFragment"/>
 
     </application>
 
