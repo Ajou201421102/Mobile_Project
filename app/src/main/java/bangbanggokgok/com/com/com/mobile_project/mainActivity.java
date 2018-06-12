@@ -47,6 +47,7 @@ public class mainActivity extends AppCompatActivity implements mainMethod{
         container = findViewById(R.id.container);
         navigate = findViewById(R.id.navigate);
         navigate_btn = findViewById(R.id.navigate_btn);
+
         //convert = findViewById(R.id.convert);
         final InfoList infoList = new InfoList();
         final Navigate navigateFragment = new Navigate();

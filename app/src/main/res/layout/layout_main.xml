@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#7CCFCD"
+        android:background="#DACFC8"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,34 +44,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#7CB3CE"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/area"
-                android:layout_width="200dp"
-                android:layout_marginLeft="20dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
-
-            <ImageView
-                android:id="@+id/search"
-                android:layout_width="10dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/right_click" />
-
-        </LinearLayout>
-
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
@@ -84,9 +56,10 @@
 
     <FrameLayout
         android:id="@+id/navigate"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
