@@ -62,7 +62,6 @@ public class mainActivity extends AppCompatActivity implements mainMethod{
         getSupportFragmentManager().beginTransaction().add(R.id.container,infoList).commit();
 
         current_uid = mAuth.getCurrentUser().getUid().toString();
-        Toast.makeText(this,current_uid,Toast.LENGTH_LONG).show();
     }
     public void CloseNavigate(){
         navigate.setVisibility(View.INVISIBLE);

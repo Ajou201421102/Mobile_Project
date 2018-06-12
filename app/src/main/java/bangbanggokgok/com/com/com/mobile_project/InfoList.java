@@ -50,6 +50,7 @@ public class InfoList extends Fragment {
     View view;
     RecyclerView recyclerView;
     ArrayList<RecyclerItem> recyclerItems = new ArrayList<>();
+    ArrayList<Informaion> Information = new ArrayList<>();
     Document doc = null;
 
     int rows;
@@ -67,11 +68,12 @@ public class InfoList extends Fragment {
     }
 
     private void showDeleteDialog(final int position) {
-        Intent intent = new Intent(getActivity(),MapFragment.class);
         String intent_seq = "";
         intent_seq += recyclerItems.get(position).getSeq();
-        startActivity(intent);
- 
+        Information = new ArrayList<>();
+        new ApplyInfo().execute("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/d/?ServiceKey=" +
+                "qRzDzTz85rxbcjeZoCMhi739iMERvTiZzZcQhaREYzRN6IZhuv1Kv63NJYgkVEHBXxOa%2FSk%2FgeOPl%2FE4rujMFQ%3D%3D&seq="+intent_seq);
+
     }
 
     private class GetCount extends AsyncTask<String, Void, Document>{
@@ -268,6 +270,152 @@ public class InfoList extends Fragment {
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation()));
 
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+    public class ApplyInfo extends AsyncTask<String, Document, Document> {
+
+        private Document doc = null;
+        private String urlList= "";
+        private String titleNode = "";
+        private String placeNode = "";
+        private String realmNameNode ="";
+        private String startDateNode = "";
+        private String priceNode = "";
+        private String endDateNode ="";
+        private String GPS_x = "";
+        private String GPS_y = "";
+        private String seqNode = "";
+        @Override
+        protected void onPreExecute() {
+
+            asynDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asynDialog.setMessage("공연정보를 가져오고 있는 중입니다");
+            asynDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Document doInBackground(String... urls) {
+            URL url;
+            try {
+                url = new URL(urls[0]);
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilder db = dbf.newDocumentBuilder(); //XML문서 빌더 객체를 생성
+                doc = db.parse(new InputSource(url.openStream())); //XML문서를 파싱한다.
+                doc.getDocumentElement().normalize();
+                publishProgress(doc);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return doc;
+        }
+
+        @Override
+        protected void onProgressUpdate(Document... values) {
+            String s = "";
+            //data태그가 있는 노드를 찾아서 리스트 형태로 만들어서 반환
+
+            NodeList nodeList = doc.getElementsByTagName("perforInfo");
+
+            Node node = nodeList.item(0); //data엘리먼트 노드
+            Element fstElmnt = (Element) node;
+
+            NodeList nameList = fstElmnt.getElementsByTagName("seq");
+            Element nameElement = (Element) nameList.item(0);
+            nameList = nameElement.getChildNodes();
+            seqNode += ((Node) nameList.item(0)).getNodeValue();
+
+            NodeList imageList = fstElmnt.getElementsByTagName("imgUrl");
+            Element imageElement = (Element) imageList.item(0);
+            imageList = imageElement.getChildNodes();
+            urlList += ((Node) imageList.item(0)).getNodeValue();
+
+            NodeList titleList = fstElmnt.getElementsByTagName("title");
+            Element titleElement = (Element) titleList.item(0);
+            titleList = titleElement.getChildNodes();
+            titleNode += ((Node) titleList.item(0)).getNodeValue();
+
+            NodeList placeList = fstElmnt.getElementsByTagName("place");
+            Element placeElement = (Element) placeList.item(0);
+            placeList = placeElement.getChildNodes();
+            placeNode += ((Node) placeList.item(0)).getNodeValue();
+
+            NodeList priceList = fstElmnt.getElementsByTagName("price");
+            Element priceElement = (Element) priceList.item(0);
+            priceList = priceElement.getChildNodes();
+            priceNode += ((Node) priceList.item(0)).getNodeValue();
+
+            NodeList realmNameList = fstElmnt.getElementsByTagName("realmName");
+            Element realmNameElement = (Element) realmNameList.item(0);
+            realmNameList = realmNameElement.getChildNodes();
+            realmNameNode += ((Node) realmNameList.item(0)).getNodeValue();
+
+            NodeList startDateList = fstElmnt.getElementsByTagName("startDate");
+            Element startElement = (Element) startDateList.item(0);
+            startDateList = startElement.getChildNodes();
+            startDateNode += ((Node) startDateList.item(0)).getNodeValue();
+
+            NodeList endDateList = fstElmnt.getElementsByTagName("endDate");
+            Element endDateElement = (Element) endDateList.item(0);
+            endDateList = endDateElement.getChildNodes();
+            endDateNode += ((Node) endDateList.item(0)).getNodeValue();
+            try {
+                NodeList GPS_X = fstElmnt.getElementsByTagName("gpsX");
+                Element gps_x = (Element) GPS_X.item(0);
+                GPS_X = gps_x.getChildNodes();
+                GPS_x += ((Node) GPS_X.item(0)).getNodeValue();
+            }catch (Exception e){
+                GPS_x = "";
+            }
+            try {
+                NodeList GPS_Y = fstElmnt.getElementsByTagName("gpsY");
+                Element gps_y = (Element) GPS_Y.item(0);
+                GPS_Y = gps_y.getChildNodes();
+                GPS_y += ((Node) GPS_Y.item(0)).getNodeValue();
+            }catch (Exception e){
+                GPS_y = "";
+            }
+            Information.add(new Informaion(urlList,titleNode,placeNode,priceNode,realmNameNode,startDateNode,endDateNode,GPS_x,GPS_y,seqNode));
+            super.onProgressUpdate(values);
+        }
+        @Override
+        protected void onPostExecute(Document document) {
+            new doIntent().execute();
+            super.onPostExecute(document);
+        }
+
+
+
+
+    }
+    public class doIntent extends AsyncTask<String, Void, Void>{
+        Intent intent;
+        @Override
+        protected Void doInBackground(String... strings) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            asynDialog.dismiss();
+            intent = new Intent(getActivity(),MapFragment.class);
+            Log.d(Information.get(0).getTitleNode()," : 타이틀");
+            intent.putExtra("imgUrl",Information.get(0).getUrlList());
+            intent.putExtra("title", Information.get(0).getTitleNode());
+            intent.putExtra("place",Information.get(0).getPlaceNode());
+            intent.putExtra("price",Information.get(0).getPriceNode());
+            intent.putExtra("realmName",Information.get(0).getRealmNameNode());
+            intent.putExtra("startDate",Information.get(0).getStartDateNode());
+            intent.putExtra("endDate",Information.get(0).getEndDateNode());
+            intent.putExtra("gpsX",Information.get(0).getGPS_x());
+            intent.putExtra("gpsY",Information.get(0).getGPS_y());
+            intent.putExtra("seq",Information.get(0).getSeq());
+            startActivity(intent);
             super.onPostExecute(aVoid);
         }
     }

@@ -2,15 +2,14 @@ package bangbanggokgok.com.com.com.mobile_project;
 
 import android.graphics.Bitmap;
 
-public class RecyclerItem {
+public class NavigateItem {
     private String seq;
     private String title;
     private Bitmap image;
     private String place;
     private String realmName;
     private String endDate;
-
-    public RecyclerItem(String seq, String title, Bitmap image, String place, String realmName, String endDate) {
+    public NavigateItem(String seq, String title, Bitmap image, String place, String realmName, String endDate) {
         this.seq = seq;
         this.title = title;
         this.image = image;
